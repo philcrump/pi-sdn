@@ -16,7 +16,7 @@ int main( int argc, char *argv[] )
     {
         /* Only Input GPIO provided */
         ButtonGPIO = atoi(argv[1]);
-        if(ButtonGPIO < 1 || ButtonGPIO > 16)
+        if(ButtonGPIO < 1 || ButtonGPIO > 20)
         {
             printf("ERROR: Input GPIO is out of bounds!\n");
             printf("Input GPIO was %d\n",ButtonGPIO);
@@ -27,14 +27,14 @@ int main( int argc, char *argv[] )
     {
         /* Both Input and Output GPIO provided */
         ButtonGPIO = atoi(argv[1]);
-        if(ButtonGPIO < 1 || ButtonGPIO > 16)
+        if(ButtonGPIO < 1 || ButtonGPIO > 20)
         {
             printf("ERROR: Button GPIO is out of bounds!\n");
             printf("Button GPIO was %d\n",ButtonGPIO);
             return 0;
         }
         IndicationGPIO = atoi(argv[2]);
-        if(IndicationGPIO < 1 || IndicationGPIO > 16)
+        if(IndicationGPIO < 1 || IndicationGPIO > 20)
         {
             printf("ERROR: Indication GPIO is out of bounds!\n");
             printf("Indication GPIO was %d\n",IndicationGPIO);
@@ -53,7 +53,7 @@ int main( int argc, char *argv[] )
         printf(" * The Button GPIO will be configured with the Pi's internal pulldown resistor (~50KOhm)\n");
         printf(" * The Indication GPIO will be reset to Input (High-Z) state on Shutdown.\n");
         printf("    An external pulldown resistor should be used to guarantee a voltage transition to LOW.\n");
-        printf(" * WiringPi GPIO pin numbers are used. (0-16)\n");
+        printf(" * WiringPi GPIO pin numbers are used. (0-20)\n");
         printf("    http://wiringpi.com/pins/\n");
         return 0;
     }
