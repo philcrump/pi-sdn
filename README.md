@@ -24,6 +24,8 @@ The pinout can be found at http://wiringpi.com/pins/
 
 ## Compile from source
 
+(Only required if you wish to make changes)
+
 Clone the git repository
 
     cd ~/
