@@ -2,7 +2,7 @@
 
 ## Usage
 
-Download the compiled binary from the Releases tab.
+Run the following command, or download the compiled binary from the Releases tab and copy it to the home directory.
 
     wget 'https://github.com/philcrump/pi-sdn/releases/download/v1.0/pi-sdn' -O /home/pi/pi-sdn
 
@@ -10,10 +10,11 @@ Add the following command to /etc/rc.local, before 'exit 0'.
 
     sudo /home/pi/pi-sdn n x
 
-*   'n' is the GPIO Number on which pi-sdn will trigger shutdown on a Rising Edge
-*   'x' is the optional GPIO Number on which pi-sdn will output constant 3.3V
-    *    A complete shutdown can be detected by a transition to High-Z on this pin.
-    *    A pull-down resistor or LED can be used to cause a Falling Edge on complete shutdown.
+*   Substitute 'n' for the GPIO Number on which pi-sdn will trigger shutdown when it sees a Rising Edge.
+    *    This GPIO will be configured with the BCM's internal pulldown resistor (~50KOhm), so a button can be directly connected between this pin and 3.3V.
+*   Substitue or remove 'x' for the optional GPIO Number on which pi-sdn will output constant 3.3V during runtime.
+    *    A complete shutdown can be detected by a transition to High-Z, or lack of sourced current, on this pin.
+    *    An external pull-down resistor or LED can be used to cause a Falling Edge on complete shutdown.
 
 ### GPIO Number
 
@@ -47,3 +48,5 @@ Compile pi-sdn
 ## Authors
 
 Copyright (c) 2015 Phil Crump <phil@philcrump.co.uk>
+
+MIT License
