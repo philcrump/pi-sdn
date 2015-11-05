@@ -4,9 +4,9 @@
 
 Download the compiled binary from the Releases tab.
 
-    wget ... -O /home/pi/pi-sdn
+    wget 'https://github.com/philcrump/pi-sdn/releases/download/v1.0/pi-sdn' -O /home/pi/pi-sdn
 
-Add the following command to /etc/rc.local
+Add the following command to /etc/rc.local, before 'exit 0'.
 
     sudo /home/pi/pi-sdn n x
 
