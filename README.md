@@ -10,7 +10,7 @@ Make sure that the file is executable.
 
     chmod +x /home/pi/pi-sdn
 
-Add the following command to /etc/rc.local, before 'exit 0'.
+Add the following line to /etc/rc.local, before 'exit 0'.
 
     sudo /home/pi/pi-sdn n x &
 
