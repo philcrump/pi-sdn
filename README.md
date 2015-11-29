@@ -23,7 +23,7 @@ Add the following line to /etc/rc.local, before 'exit 0'.
 
 ### GPIO Number
 
-pi-sdn uses the WiringPi pin numbers (0-20)
+pi-sdn uses the WiringPi pin numbers (0-20).
 
 The pinout can be found at http://wiringpi.com/pins/
 
