@@ -16,7 +16,7 @@ Make sure that the file is executable.
 
 Add the following line to /etc/rc.local, before 'exit 0'.
 
-    sudo /home/pi/pi-sdn n x &
+    sudo /home/pi/pi-sdn n x > /dev/null 2>&1 &
 
 *   Substitute 'n' for the WiringPi GPIO Number on which pi-sdn will trigger shutdown when it sees a Rising Edge.
     *    This GPIO will be configured with the BCM's internal pulldown resistor (~50KOhm), so a button can be directly connected between this pin and 3.3V.
