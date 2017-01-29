@@ -2,9 +2,13 @@
 
 ## Usage
 
+Install wiringpi (required for gpio setup since ~Q4/2016).
+
+    sudo apt-get install wiringpi
+
 Run the following command, or download the compiled binary from the Releases tab and copy it to the home directory.
 
-    wget 'https://github.com/philcrump/pi-sdn/releases/download/v1.0/pi-sdn' -O /home/pi/pi-sdn
+    wget 'https://github.com/philcrump/pi-sdn/releases/download/v1.1/pi-sdn' -O /home/pi/pi-sdn
 
 Make sure that the file is executable.
 
@@ -14,10 +18,10 @@ Add the following line to /etc/rc.local, before 'exit 0'.
 
     sudo /home/pi/pi-sdn n x &
 
-*   Substitute 'n' for the GPIO Number on which pi-sdn will trigger shutdown when it sees a Rising Edge.
+*   Substitute 'n' for the WiringPi GPIO Number on which pi-sdn will trigger shutdown when it sees a Rising Edge.
     *    This GPIO will be configured with the BCM's internal pulldown resistor (~50KOhm), so a button can be directly connected between this pin and 3.3V.
         *    In EM-heavy environments, such as radio transmitters, a stronger external pulldown resistor (eg. 1KOhm) can be required to prevent unwanted triggering.
-*   Substitue or remove 'x' for the optional GPIO Number on which pi-sdn will output constant 3.3V during runtime.
+*   Substitue or remove 'x' for the optional WiringPi GPIO Number on which pi-sdn will output constant 3.3V during runtime.
     *    A complete shutdown can be detected by a transition to High-Z, or lack of sourced current, on this pin.
     *    An external pull-down resistor or LED can be used to cause a Falling Edge on complete shutdown.
 
