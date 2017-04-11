@@ -12,7 +12,7 @@ CFLAGS-STATIC = -static
 
 SRCS = main.c timer.c
 
-LIBS = -lwiringPi -lpthread
+LIBS = -lwiringPi -lpthread -lrt
 
 all:
 	$(CC) $(CFLAGS) $(SRCS) -o $(BIN) $(LIBS)
