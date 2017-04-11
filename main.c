@@ -6,17 +6,17 @@
 
 #include "timer.h"
 
+int8_t IndicationGPIO;
+int8_t ButtonGPIO;
 char sdnCommand[32];
 _timer_t shutdown_button_timer;
 
-void Rising_Edge_ISR(void);
-void Falling_Edge_ISR(void);
+void Edge_ISR(void);
 void Shutdown_Function(void);
 
 int main( int argc, char *argv[] )
 {
-    int8_t IndicationGPIO = -1;
-    int8_t ButtonGPIO;
+    IndicationGPIO = -1;
     if( argc == 2 )
     {
         /* Only Input GPIO provided */
@@ -81,8 +81,7 @@ int main( int argc, char *argv[] )
 	/* Set up GPIOi as Input */
 	pinMode(ButtonGPIO, INPUT);
 	pullUpDnControl(ButtonGPIO, PUD_DOWN);
-	wiringPiISR(ButtonGPIO, INT_EDGE_RISING, Rising_Edge_ISR);
-    wiringPiISR(ButtonGPIO, INT_EDGE_FALLING, Falling_Edge_ISR);
+	wiringPiISR(ButtonGPIO, INT_EDGE_BOTH, Edge_ISR);
     
     /* Spin loop while waiting for ISR */
     while(1)
@@ -93,19 +92,21 @@ int main( int argc, char *argv[] )
     return 0;
 }
 
-void Rising_Edge_ISR(void)
+void Edge_ISR(void)
 {
-    /* Try to reset the timer incase it's already running */
-    timer_reset(&shutdown_button_timer);
+    if(digitalRead(ButtonGPIO) == HIGH)
+    {
+        /* Try to reset the timer incase it's already running */
+        timer_reset(&shutdown_button_timer);
 
-    /* Set timer */
-    timer_set(&shutdown_button_timer, 100, Shutdown_Function);
-}
-
-void Falling_Edge_ISR(void)
-{
-    /* Reset timer */
-    timer_reset(&shutdown_button_timer);
+        /* Set timer */
+        timer_set(&shutdown_button_timer, 100, Shutdown_Function);
+    }
+    else
+    {
+        /* Disarm timer */
+        timer_reset(&shutdown_button_timer);
+    }
 }
 
 void Shutdown_Function(void)
