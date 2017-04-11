@@ -4,9 +4,14 @@
 #include <stdlib.h>
 #include <wiringPi.h>
 
-char sdnCommand[32];
+#include "timer.h"
 
-void Shutdown_GPIO_ISR(void);
+char sdnCommand[32];
+_timer_t shutdown_button_timer;
+
+void Rising_Edge_ISR(void);
+void Falling_Edge_ISR(void);
+void Shutdown_Function(void);
 
 int main( int argc, char *argv[] )
 {
@@ -58,13 +63,6 @@ int main( int argc, char *argv[] )
         return 0;
     }
     
-    /* Check we're root (for wiringPi) */
-    //uid_t uid=getuid(), euid=geteuid();
-    //if (!(uid<0 || uid!=euid)) {
-    //    printf("ERROR: For GPIO Access, pisdn must be run as root!\n");
-    //    return 0;
-    //}
-    
     /* Set up wiringPi module */
     if (wiringPiSetup() < 0)
 	{
@@ -83,7 +81,8 @@ int main( int argc, char *argv[] )
 	/* Set up GPIOi as Input */
 	pinMode(ButtonGPIO, INPUT);
 	pullUpDnControl(ButtonGPIO, PUD_DOWN);
-	wiringPiISR(ButtonGPIO, INT_EDGE_RISING, Shutdown_GPIO_ISR);
+	wiringPiISR(ButtonGPIO, INT_EDGE_RISING, Rising_Edge_ISR);
+    wiringPiISR(ButtonGPIO, INT_EDGE_FALLING, Falling_Edge_ISR);
     
     /* Spin loop while waiting for ISR */
     while(1)
@@ -94,8 +93,22 @@ int main( int argc, char *argv[] )
     return 0;
 }
 
-/* ISR Called on DIO Rising Edge */
-void Shutdown_GPIO_ISR(void)
+void Rising_Edge_ISR(void)
+{
+    /* Try to reset the timer incase it's already running */
+    timer_reset(&shutdown_button_timer);
+
+    /* Set timer */
+    timer_set(&shutdown_button_timer, 100, Shutdown_Function);
+}
+
+void Falling_Edge_ISR(void)
+{
+    /* Reset timer */
+    timer_reset(&shutdown_button_timer);
+}
+
+void Shutdown_Function(void)
 {
     /* Shut. It. Down */
     system(sdnCommand);

@@ -8,7 +8,7 @@ CC = gcc
 
 CFLAGS = -static
 
-SRCS = main.c
+SRCS = main.c timer.c
 
 LIBS = -lwiringPi -lpthread
 
